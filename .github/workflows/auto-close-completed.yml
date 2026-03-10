@@ -1,0 +1,16 @@
+name: Auto-close completed issues
+
+on:
+  issues:
+    types: [opened, labeled]
+
+jobs:
+  auto-close:
+    runs-on: ubuntu-latest
+    if: contains(github.event.issue.labels.*.name, 'completed')
+    steps:
+      - name: Close issue
+        uses: peter-evans/close-issue@v3
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          comment: "This issue has been automatically closed because it was labeled as 'completed'."
